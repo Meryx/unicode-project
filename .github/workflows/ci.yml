@@ -45,7 +45,16 @@ jobs:
       # Step 7: Wait on server
       - name: Wait on server
         run: |
-          docker run --rm --network ci-network appropriate/curl curl -f http://app:3000 || exit 1
+          max_retries=10
+          count=0
+          until docker run --rm --network ci-network appropriate/curl curl -f http://app:3000; do
+            sleep 5
+            count=$((count + 1))
+            if [ $count -ge $max_retries ]; then
+              echo "Next.js app did not become ready in time."
+              exit 1
+            fi
+          donet 1
 
       # Step 8: Run Cypress tests
       - name: Run Cypress tests
