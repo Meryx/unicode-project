@@ -54,7 +54,7 @@ jobs:
               echo "Next.js app did not become ready in time."
               exit 1
             fi
-          donet 1
+          done
 
       # Step 8: Run Cypress tests
       - name: Run Cypress tests
