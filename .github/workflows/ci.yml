@@ -34,11 +34,8 @@ jobs:
         run: docker run --rm -d -p 3000:3000 nextjs-app-ci npm run dev
 
       # Step 6: Wait for the Next.js app to be available
-      - name: Wait for Next.js app
-        uses: jakejarvis/wait-action@v1
-        with:
-          url: http://localhost:3000
-          timeout: 60
+      - name: Wait for Next.js app to be ready
+        run: npx wait-on http://localhost:3000
 
       # Step 7: Run Cypress tests
       - name: Run Cypress tests
