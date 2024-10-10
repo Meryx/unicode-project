@@ -1,5 +1,5 @@
 # Use the Node 20 Alpine base image
-FROM cypress/included:13.15.0
+FROM node:20-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
