@@ -27,7 +27,7 @@ jobs:
 
       # Step 4: Run Jest tests inside the Docker container
       - name: Run Jest tests
-        run: docker run --rm nextjs-app-ci npm jest
+        run: docker run --rm nextjs-app-ci npm test
 
       # Step 5: Start the Next.js app in detached mode
       - name: Start Next.js app in Docker (for Cypress)
