@@ -35,11 +35,12 @@ jobs:
 
       # Step 6: Start the Next.js app in Docker on the custom network
       - name: Start Next.js app in Docker (for Cypress)
-        run: docker run -d --rm \
-          --network ci-network \
-          --network-alias app \
-          --name nextjs-app \
-          nextjs-app-ci npm run dev -- -H 0.0.0.0
+        run: |
+          docker run -d --rm \
+            --network ci-network \
+            --network-alias app \
+            --name nextjs-app \
+            nextjs-app-ci npm run dev -- -H 0.0.0.0
 
       # Step 7: Wait on server
       - name: Wait on server
