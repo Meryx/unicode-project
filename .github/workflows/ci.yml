@@ -39,4 +39,4 @@ jobs:
 
       # Step 7: Run Cypress tests
       - name: Run Cypress tests
-        run: docker run --rm -v ./e2e:/e2e --workdir=/e2e --entrypoint="" cypress/included:13.15.0 /bin/bash -c 'cypress run'
+        run: docker run --rm -v $PWD:/project --workdir=/project --entrypoint="" cypress/included:13.15.0 /bin/bash -c 'cypress run'
