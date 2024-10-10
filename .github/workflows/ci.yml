@@ -1,0 +1,45 @@
+name: CI with Docker for Next.js
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Build the Docker image
+      - name: Build Docker image
+        run: docker build -t nextjs-app-ci .
+
+      # Step 4: Run Jest tests inside the Docker container
+      - name: Run Jest tests
+        run: docker run --rm nextjs-app-ci npm test
+
+      # Step 5: Start the Next.js app in detached mode
+      - name: Start Next.js app in Docker (for Cypress)
+        run: docker run --rm -d -p 3000:3000 nextjs-app-ci npm run dev
+
+      # Step 6: Wait for the Next.js app to be available
+      - name: Wait for Next.js app
+        uses: jakejarvis/wait-action@v1
+        with:
+          url: http://localhost:3000
+          timeout: 60
+
+      # Step 7: Run Cypress tests
+      - name: Run Cypress tests
+        run: docker run --rm --network host nextjs-app-ci npm run cypress:run
