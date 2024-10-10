@@ -27,8 +27,12 @@ jobs:
 
       # Step 4: Run Jest tests inside the Docker container
       - name: Run Jest tests
-        run: docker run --rm nextjs-app-ci npm test
+        run: docker run --rm nextjs-app-ci npm jest
 
-      # Step 5: Run Cypress tests
+      # Step 5: Start the Next.js app in detached mode
+      - name: Start Next.js app in Docker (for Cypress)
+        run: docker run --rm -d -p 3000:3000 nextjs-app-ci npm run dev
+
+      # Step 6: Run Cypress tests
       - name: Run Cypress tests
         run: docker run --rm -v ./e2e:/e2e --workdir=/e2e --entrypoint="" cypress/included:13.15.0 /bin/bash -c 'npx wait-on http://127.0.0.1:3000 && cypress run'
